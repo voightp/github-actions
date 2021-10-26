@@ -1,0 +1,77 @@
+# This workflow will run a test suite.
+
+name: Run Tests
+on:
+  workflow_call:
+    inputs:
+      matrix:
+        description: "Target os to run tests on."
+        default: "[ 'ubuntu-latest', 'windows-latest', 'macOS-latest' ]"
+        required: false
+        type: string
+      python-version:
+        description: "Array of python versions to run tests on."
+        default: "[ '3.8', '3.9' ]"
+        required: false
+        type: string
+      pytest-args:
+        description: "Parameters passed to pytest"
+        default: ""
+        required: false
+        type: string
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  validate-inputs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate inputs
+        run: |
+          echo ${{ fromJSON(inputs.matrix) }}
+          echo ${{ fromJSON(inputs.python-version) }}
+
+  tests:
+    needs: validate-inputs
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        python-version: ${{ fromJSON(inputs.python-version) }}
+        os: ${{ fromJSON(inputs.matrix) }}
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Set up Poetry
+        run: |
+          curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py | python3 - -y
+
+      - name: Add poetry to path (Windows)
+        if: ${{ matrix.os == 'windows-latest' }}
+        run: echo "$APPDATA\Python\Scripts" >> $GITHUB_PATH
+
+      - name: Add poetry to path (MacOS or Ubuntu)
+        if: ${{ matrix.os != 'windows-latest' }}
+        run: echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+      - name: Configure poetry
+        run: |
+          poetry config virtualenvs.in-project true
+
+      - name: Set up cache
+        uses: actions/cache@v2
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+
+      - name: Install dependencies
+        run: poetry install
+
+      - name: Test with pytest
+        run: poetry run pytest ${{ inputs.pytest-args }}
