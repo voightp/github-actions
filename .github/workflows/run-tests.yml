@@ -26,7 +26,6 @@ defaults:
 
 jobs:
   tests:
-    needs: validate-inputs
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
