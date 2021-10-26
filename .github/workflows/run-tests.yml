@@ -25,14 +25,6 @@ defaults:
     shell: bash
 
 jobs:
-  validate-inputs:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Validate inputs
-        run: |
-          echo ${{ fromJSON(inputs.matrix) }}
-          echo ${{ fromJSON(inputs.python-version) }}
-
   tests:
     needs: validate-inputs
     runs-on: ${{ matrix.os }}
