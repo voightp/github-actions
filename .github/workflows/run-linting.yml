@@ -15,7 +15,7 @@ on:
         required: false
         type: number
 jobs:
-  linintg:
+  linting:
     runs-on: ${{ inputs.os }}
     steps:
       - uses: actions/checkout@v2
