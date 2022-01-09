@@ -15,10 +15,15 @@ on:
         required: false
         type: string
       pytest-args:
-        description: "Parameters passed to pytest"
+        description: "Parameters passed to pytest."
         default: ""
         required: false
         type: string
+    poetry-install-args:
+      description: "Parameters passed to poetry install command."
+      default: ""
+      required: false
+      type: string
 
 defaults:
   run:
@@ -41,7 +46,7 @@ jobs:
 
       - name: Set up Poetry
         run: |
-          curl -sSL https://install.python-poetry.org | python3 -
+          curl -sSL https://install.python-poetry.org | python3 - ${{ inputs.poetry-install-args }}
 
       - name: Add poetry to path (Windows)
         if: ${{ matrix.os == 'windows-latest' }}
