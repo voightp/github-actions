@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from src.dummy_code import make_all_caps
+from some_package.dummy_code import make_all_caps
 
 
 def test_dependencies_installed():
