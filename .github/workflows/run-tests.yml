@@ -46,7 +46,7 @@ jobs:
 
       - name: Set up Poetry
         run: |
-          curl -sSL https://install.python-poetry.org | python -y ${{ inputs.poetry-bootstrap-args }}
+          curl -sSL https://install.python-poetry.org | python - -y ${{ inputs.poetry-bootstrap-args }}
 
       - name: Add poetry to path (Windows)
         if: ${{ matrix.os == 'windows-latest' }}
