@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from some_package.dummy_code import make_all_caps
+import dummy_code
 
 
 def test_dependencies_installed():
@@ -9,4 +9,4 @@ def test_dependencies_installed():
 
 
 def test_dummy_code():
-    assert make_all_caps("foo") == "FOO"
+    assert dummy_code.make_all_caps("foo") == "FOO"
