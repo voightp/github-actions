@@ -19,11 +19,11 @@ on:
         default: ""
         required: false
         type: string
-    poetry-install-args:
-      description: "Parameters passed to poetry install command."
-      default: ""
-      required: false
-      type: string
+      poetry-install-args:
+        description: "Parameters passed to poetry install command."
+        default: ""
+        required: false
+        type: string
 
 defaults:
   run:
