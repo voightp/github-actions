@@ -1,6 +1,6 @@
 from datetime import datetime
 
-import dummy_code
+from github_actions import dummy_code
 
 
 def test_dependencies_installed():
