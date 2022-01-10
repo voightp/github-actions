@@ -19,6 +19,11 @@ on:
         default: ""
         required: false
         type: string
+      poetry-bootstrap-args:
+        description: "Parameters passed to poetry bootstrap command."
+        default: ""
+        required: false
+        type: string
 
 defaults:
   run:
@@ -41,7 +46,7 @@ jobs:
 
       - name: Set up Poetry
         run: |
-          curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py | python3 - -y
+          curl -sSL https://install.python-poetry.org | python - -y ${{ inputs.poetry-bootstrap-args }}
 
       - name: Add poetry to path (Windows)
         if: ${{ matrix.os == 'windows-latest' }}
