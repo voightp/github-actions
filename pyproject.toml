@@ -4,6 +4,9 @@ version = "0.1.0"
 description = "Define common workflows."
 authors = ["voightp <vojtechpanek@seznam.cz>"]
 license = "MIT"
+packages = [
+    { include = "github_actions" }
+]
 
 [tool.poetry.dependencies]
 python = "^3.8"
