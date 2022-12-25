@@ -59,13 +59,13 @@ jobs:
         run: |
           poetry config virtualenvs.in-project true
 
-      - name: Get tag POETRY tag
+      - name: Get POETRY tag
         id: poetry-tag
-        run: echo ::set-output name=TAG::v$(poetry version -s)
+        run: echo "TAG={v$(poetry version -s)}" >> $GITHUB_OUTPUT
 
       - name: Get GITHUB tag
         id: git-tag
-        run: echo ::set-output name=TAG::${GITHUB_REF#refs/*/}
+        run: echo "TAG={${GITHUB_REF#refs/*/}}" >> $GITHUB_OUTPUT
 
       - name: Validate tag
         run: |
