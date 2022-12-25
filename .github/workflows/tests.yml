@@ -15,12 +15,12 @@ defaults:
 
 jobs:
   call-linting:
-    uses: voightp/github-actions/.github/workflows/run-linting.yml@master
+    uses: voightp/github-actions/.github/workflows/run-linting.yml@latest
     with:
       os: ubuntu-latest
       python-version: 3.9
   call-tests:
     needs: call-linting
-    uses: voightp/github-actions/.github/workflows/run-tests.yml@master
+    uses: voightp/github-actions/.github/workflows/run-tests.yml@latest
     with:
       pytest-args: "tests -v"
