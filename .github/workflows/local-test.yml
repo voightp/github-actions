@@ -1,0 +1,25 @@
+# This workflow builds and uploads package.
+
+name: Test
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  call-linting:
+    uses: ./.github/workflows/run-linting.yml
+    with:
+      os: ubuntu-latest
+      python-version: 3.9
+  call-tests:
+    uses: ./.github/workflows/run-tests.yml
+    with:
+      pytest-args: "tests -v"
