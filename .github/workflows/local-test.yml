@@ -3,9 +3,11 @@
 name: Lint, test and build
 on:
   push:
-    tags:
-      - 'v*.*.*'
-      - '*.*.*'
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
 
 defaults:
   run:
@@ -21,9 +23,3 @@ jobs:
     uses: ./.github/workflows/run-tests.yml
     with:
       pytest-args: "tests -v"
-  call-build:
-    needs: call-tests
-    uses: ./.github/workflows/run-build.yml
-    with:
-      matrix: "[ 'ubuntu-latest', 'windows-latest', 'macOS-latest' ]"
-      python-version: 3.9
