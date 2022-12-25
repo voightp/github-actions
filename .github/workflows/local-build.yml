@@ -1,24 +1,34 @@
 # This workflow builds and uploads package.
 
-name: Package
+name: Lint, test and build
 on:
   push:
+    branches:
+      - master
     tags:
       - 'v*.*.*'
       - '*.*.*'
+  pull_request:
+    branches:
+      - master
 
 defaults:
   run:
     shell: bash
 
 jobs:
+  call-linting:
+    uses: ./.github/workflows/run-linting.yml
+    with:
+      os: ubuntu-latest
+      python-version: 3.9
   call-tests:
-    uses: voightp/github-actions/.github/workflows/run-tests.yml@master
+    uses: ./.github/workflows//run-tests.yml
     with:
       pytest-args: "tests -v"
   call-build:
     needs: call-tests
-    uses: voightp/github-actions/.github/workflows/run-build.yml@master
+    uses: ./.github/workflows/run-build.yml
     with:
       matrix: "[ 'ubuntu-latest', 'windows-latest', 'macOS-latest' ]"
       python-version: 3.9
