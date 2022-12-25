@@ -23,7 +23,7 @@ jobs:
       os: ubuntu-latest
       python-version: 3.9
   call-tests:
-    uses: ./.github/workflows//run-tests.yml
+    uses: ./.github/workflows/run-tests.yml
     with:
       pytest-args: "tests -v"
   call-build:
