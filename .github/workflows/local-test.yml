@@ -1,6 +1,6 @@
 # This workflow builds and uploads package.
 
-name: Lint, test and build
+name: Test
 on:
   push:
     branches:

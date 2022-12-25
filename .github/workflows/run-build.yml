@@ -61,11 +61,11 @@ jobs:
 
       - name: Get POETRY tag
         id: poetry-tag
-        run: echo "TAG={v$(poetry version -s)}" >> $GITHUB_OUTPUT
+        run: echo "TAG=v$(poetry version -s)" >> $GITHUB_OUTPUT
 
       - name: Get GITHUB tag
         id: git-tag
-        run: echo "TAG={${GITHUB_REF#refs/*/}}" >> $GITHUB_OUTPUT
+        run: echo "TAG=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
 
       - name: Validate tag
         run: |
