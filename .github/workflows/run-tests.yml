@@ -11,7 +11,7 @@ on:
         type: string
       python-version:
         description: "Array of python versions to run tests on."
-        default: "[ '3.8', '3.9' ]"
+        default: "[ '3.8', '3.9', '3.10' ]"
         required: false
         type: string
       pytest-args:
