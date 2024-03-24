@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "github-actions"
-version = "0.1.4"
+version = "0.1.5"
 description = "Define common workflows."
 authors = ["voightp <vojtechpanek@seznam.cz>"]
 license = "MIT"
