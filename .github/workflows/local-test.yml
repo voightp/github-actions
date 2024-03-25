@@ -1,4 +1,4 @@
-# This workflow builds and uploads package.
+# This workflow runs linting and tests.
 
 name: Test
 on:
