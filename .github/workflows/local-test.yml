@@ -22,5 +22,5 @@ jobs:
   call-tests:
     uses: ./.github/workflows/run-tests.yml
     with:
-      python-version: "[ '3.10', '3.11', '3.12', '3.13' ]"
+      python-versions: "[ '3.10', '3.11', '3.12', '3.13' ]"
       pytest-args: "tests -v"

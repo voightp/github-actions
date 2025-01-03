@@ -4,12 +4,12 @@ name: Run Tests
 on:
   workflow_call:
     inputs:
-      matrix:
+      platforms:
         description: "Target os to run tests on."
         default: "[ 'ubuntu-latest', 'windows-latest', 'macOS-latest' ]"
         required: false
         type: string
-      python-version:
+      python-versions:
         description: "Array of python versions to run tests on."
         default: "[ '3.10', '3.11', '3.12', '3.13' ]"
         required: false
@@ -29,8 +29,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        python-version: ${{ fromJSON(inputs.python-version) }}
-        os: ${{ fromJSON(inputs.matrix) }}
+        python-version: ${{ fromJSON(inputs.python-versions) }}
+        os: ${{ fromJSON(inputs.platforms) }}
       fail-fast: false
     steps:
       - uses: actions/checkout@v4

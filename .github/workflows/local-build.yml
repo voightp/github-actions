@@ -20,11 +20,11 @@ jobs:
   call-tests:
     uses: ./.github/workflows/run-tests.yml
     with:
-      python-version: "[ '3.13' ]"
+      python-versions: "[ '3.13' ]"
       pytest-args: "tests -v"
   call-build:
     needs: call-tests
     uses: ./.github/workflows/run-build.yml
     with:
-      matrix: "[ 'ubuntu-latest', 'windows-latest', 'macOS-latest' ]"
+      platforms: "[ 'ubuntu-latest', 'windows-latest', 'macOS-latest' ]"
       python-version: "3.13"

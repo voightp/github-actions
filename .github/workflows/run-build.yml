@@ -4,7 +4,7 @@ name: Run build
 on:
   workflow_call:
     inputs:
-      matrix:
+      platforms:
         description: "Target os to build package on."
         default: "[ 'ubuntu-latest', 'windows-latest', 'macOS-latest' ]"
         required: false
@@ -24,7 +24,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: ${{ fromJSON(inputs.matrix) }}
+        os: ${{ fromJSON(inputs.platforms) }}
       fail-fast: false
     steps:
       - uses: actions/checkout@v4
