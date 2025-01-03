@@ -9,21 +9,6 @@ on:
         default: "[ 'ubuntu-latest', 'windows-latest', 'macOS-latest' ]"
         required: false
         type: string
-      python-version:
-        description: "Python version used for linting."
-        default: "3.10"
-        required: false
-        type: string
-      pytest-args:
-        description: "Parameters passed to pytest"
-        default: ""
-        required: false
-        type: string
-      poetry-bootstrap-args:
-        description: "Parameters passed to poetry bootstrap command."
-        default: ""
-        required: false
-        type: string
 
 defaults:
   run:
@@ -38,30 +23,14 @@ jobs:
       fail-fast: false
     steps:
       - uses: actions/checkout@v4
-      - name: ${{ inputs.python-version }}
-        uses: actions/setup-python@v5
+      - name: Install the latest version of uv and set the python version
+        uses: astral-sh/setup-uv@v5
         with:
-          python-version: ${{ inputs.python-version }}
+          python-version: ${{ matrix.python-version }}
 
-      - name: Set up Poetry
-        run: |
-          curl -sSL https://install.python-poetry.org | python - -y ${{ inputs.poetry-bootstrap-args }}
-
-      - name: Add poetry to path (Windows)
-        if: ${{ matrix.os == 'windows-latest' }}
-        run: echo "$APPDATA\Python\Scripts" >> $GITHUB_PATH
-
-      - name: Add poetry to path (MacOS or Ubuntu)
-        if: ${{ matrix.os != 'windows-latest' }}
-        run: echo "$HOME/.local/bin" >> $GITHUB_PATH
-
-      - name: Configure poetry
-        run: |
-          poetry config virtualenvs.in-project true
-
-      - name: Get POETRY tag
-        id: poetry-tag
-        run: echo "TAG=v$(poetry version -s)" >> $GITHUB_OUTPUT
+      - name: Get package tag
+        id: package-tag
+        run: echo "TAG=v$(uvx --from toml-cli toml get --toml-path=pyproject.toml project.version)" >> $GITHUB_OUTPUT
 
       - name: Get GITHUB tag
         id: git-tag
@@ -69,24 +38,18 @@ jobs:
 
       - name: Validate tag
         run: |
-          poetryTag=${{ steps.poetry-tag.outputs.TAG }}
+          packageTag=${{ steps.package-tag.outputs.TAG }}
           gitTag=${{ steps.git-tag.outputs.TAG }}
-          echo POETRY $poetryTag
+          echo PACKAGE $packageTag
           echo GIT $gitTag
-          python -c "import sys; eq='$poetryTag'!='$gitTag'; sys.exit(int(eq))"
+          python -c "import sys; eq='packageTag'!='$gitTag'; sys.exit(int(eq))"
           exit $?
 
-      - name: Set up cache
-        uses: actions/cache@v3
-        with:
-          path: .venv
-          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
-
       - name: Install dependencies
-        run: poetry install
+        run: uv venv
 
-      - name: Build with Poetry
-        run: poetry build
+      - name: Build with uv
+        run: uv build
 
       - name: Create package
         uses: ncipollo/release-action@v1
@@ -98,7 +61,7 @@ jobs:
           removeArtifacts: false
           replaceArtifacts: true
           body: "Automatically generated release."
-          tag: ${{ steps.poetry-tag.outputs.TAG }}
+          tag: ${{ steps.package-tag.outputs.TAG }}
 
 
 

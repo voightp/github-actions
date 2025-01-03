@@ -1,11 +1,14 @@
-from datetime import datetime
+import pytest
 
 from github_actions import dummy_code
 
 
 def test_dependencies_installed():
-    import pendulum
-    assert isinstance(pendulum.datetime(2021, 5, 1), datetime)
+    try:
+        import flask
+        assert flask.__version__
+    except ImportError:
+        pytest.fail("Flask dependency is missing!")
 
 
 def test_dummy_code():
