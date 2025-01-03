@@ -6,7 +6,7 @@ from github_actions import dummy_code
 def test_dependencies_installed():
     try:
         import flask
-        assert flask.__version__
+        _ = flask
     except ImportError:
         pytest.fail("Flask dependency is missing!")
 

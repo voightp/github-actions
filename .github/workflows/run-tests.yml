@@ -43,4 +43,4 @@ jobs:
         run: uv venv
 
       - name: Test with pytest
-        run: poetry run pytest ${{ inputs.pytest-args }}
+        run: uv run pytest ${{ inputs.pytest-args }}
