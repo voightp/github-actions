@@ -4,23 +4,18 @@ name: Run Tests
 on:
   workflow_call:
     inputs:
-      matrix:
+      platforms:
         description: "Target os to run tests on."
         default: "[ 'ubuntu-latest', 'windows-latest', 'macOS-latest' ]"
         required: false
         type: string
-      python-version:
+      python-versions:
         description: "Array of python versions to run tests on."
-        default: "[ '3.8', '3.9', '3.10' ]"
+        default: "[ '3.10', '3.11', '3.12', '3.13' ]"
         required: false
         type: string
       pytest-args:
         description: "Parameters passed to pytest."
-        default: ""
-        required: false
-        type: string
-      poetry-bootstrap-args:
-        description: "Parameters passed to poetry bootstrap command."
         default: ""
         required: false
         type: string
@@ -34,40 +29,18 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        python-version: ${{ fromJSON(inputs.python-version) }}
-        os: ${{ fromJSON(inputs.matrix) }}
+        python-version: ${{ fromJSON(inputs.python-versions) }}
+        os: ${{ fromJSON(inputs.platforms) }}
       fail-fast: false
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
+      - name: Install the latest version of uv and set the python version
+        uses: astral-sh/setup-uv@v5
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Set up Poetry
-        run: |
-          curl -sSL https://install.python-poetry.org | python - -y ${{ inputs.poetry-bootstrap-args }}
-
-      - name: Add poetry to path (Windows)
-        if: ${{ matrix.os == 'windows-latest' }}
-        run: echo "$APPDATA\Python\Scripts" >> $GITHUB_PATH
-
-      - name: Add poetry to path (MacOS or Ubuntu)
-        if: ${{ matrix.os != 'windows-latest' }}
-        run: echo "$HOME/.local/bin" >> $GITHUB_PATH
-
-      - name: Configure poetry
-        run: |
-          poetry config virtualenvs.in-project true
-
-      - name: Set up cache
-        uses: actions/cache@v3
-        with:
-          path: .venv
-          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
-
       - name: Install dependencies
-        run: poetry install
+        run: uv venv
 
       - name: Test with pytest
-        run: poetry run pytest ${{ inputs.pytest-args }}
+        run: uv run pytest ${{ inputs.pytest-args }}

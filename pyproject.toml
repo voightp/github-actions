@@ -1,20 +1,19 @@
-[tool.poetry]
+[project]
 name = "github-actions"
-version = "0.1.5"
+version = "1.0.0"
 description = "Define common workflows."
-authors = ["voightp <vojtechpanek@seznam.cz>"]
-license = "MIT"
-packages = [
-    { include = "github_actions" }
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "flask>=3.1.0",
 ]
 
-[tool.poetry.dependencies]
-python = "^3.8"
-pendulum = "^2.1.2"
-
-[tool.poetry.dev-dependencies]
-pytest = "^6.2.5"
+[dependency-groups]
+dev = [
+    "pytest>=8.3.4",
+    "setuptools>=75.6.0",
+]
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
