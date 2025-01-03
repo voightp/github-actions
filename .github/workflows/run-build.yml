@@ -31,7 +31,7 @@ jobs:
       - name: Install the latest version of uv and set the python version
         uses: astral-sh/setup-uv@v5
         with:
-          python-version: ${{ python-version }}
+          python-version: ${{ inputs.python-version }}
 
       - name: Get package tag
         id: package-tag
