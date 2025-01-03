@@ -47,7 +47,7 @@ jobs:
           gitTag=${{ steps.git-tag.outputs.TAG }}
           echo PACKAGE $packageTag
           echo GIT $gitTag
-          python -c "import sys; eq='packageTag'!='$gitTag'; sys.exit(int(eq))"
+          python -c "import sys; eq='$packageTag'!='$gitTag'; sys.exit(int(eq))"
           exit $?
 
       - name: Install dependencies
