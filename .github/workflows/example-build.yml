@@ -13,17 +13,17 @@ defaults:
 
 jobs:
   call-linting:
-    uses: voightp/github-actions/.github/workflows/run-linting.yml@master
+    uses: voightp/github-actions/.github/workflows/run-linting.yml@v1
     with:
       os: ubuntu-latest
       python-version: "3.13"
   call-tests:
-    uses: voightp/github-actions/.github/workflows/run-tests.yml@master
+    uses: voightp/github-actions/.github/workflows/run-tests.yml@v1
     with:
       pytest-args: "tests -v"
   call-build:
     needs: call-tests
-    uses: voightp/github-actions/.github/workflows/run-build.yml@master
+    uses: voightp/github-actions/.github/workflows/run-build.yml@v1
     with:
       matrix: "[ 'ubuntu-latest', 'windows-latest', 'macOS-latest' ]"
       python-version: "3.13"
