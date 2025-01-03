@@ -9,6 +9,11 @@ on:
         default: "[ 'ubuntu-latest', 'windows-latest', 'macOS-latest' ]"
         required: false
         type: string
+    python-version:
+      description: "Python version used for build."
+      default: "3.13"
+      required: false
+      type: string
 
 defaults:
   run:
@@ -26,7 +31,7 @@ jobs:
       - name: Install the latest version of uv and set the python version
         uses: astral-sh/setup-uv@v5
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: ${{ python-version }}
 
       - name: Get package tag
         id: package-tag
