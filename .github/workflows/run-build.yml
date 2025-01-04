@@ -64,7 +64,7 @@ jobs:
           draft: false
           allowUpdates: true
           removeArtifacts: false
-          replaceArtifacts: true
+          replacesArtifacts: true
           body: "Automatically generated release."
           tag: ${{ steps.package-tag.outputs.TAG }}
 
