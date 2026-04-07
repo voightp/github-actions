@@ -27,9 +27,9 @@ jobs:
         os: ${{ fromJSON(inputs.platforms) }}
       fail-fast: false
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Install the latest version of uv and set the python version
-        uses: astral-sh/setup-uv@v5
+        uses: astral-sh/setup-uv@v7
         with:
           python-version: ${{ inputs.python-version }}
 
@@ -57,7 +57,7 @@ jobs:
         run: uv build
 
       - name: Create package
-        uses: ncipollo/release-action@v1
+        uses: ncipollo/release-action@v1.21.0
         with:
           artifacts: "dist/*"
           token: ${{ secrets.GITHUB_TOKEN }}
