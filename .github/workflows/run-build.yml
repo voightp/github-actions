@@ -32,6 +32,7 @@ jobs:
         uses: astral-sh/setup-uv@v7
         with:
           python-version: ${{ inputs.python-version }}
+          activate-environment: true
 
       - name: Get package tag
         id: package-tag
@@ -51,7 +52,7 @@ jobs:
           exit $?
 
       - name: Install dependencies
-        run: uv venv
+        run: uv sync
 
       - name: Build with uv
         run: uv build
