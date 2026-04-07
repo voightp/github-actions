@@ -38,9 +38,10 @@ jobs:
         uses: astral-sh/setup-uv@v7
         with:
           python-version: ${{ matrix.python-version }}
+          activate-environment: true
 
       - name: Install dependencies
-        run: uv venv
+        run: uv sync
 
       - name: Test with pytest
         run: uv run pytest ${{ inputs.pytest-args }}
